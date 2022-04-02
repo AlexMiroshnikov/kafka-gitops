@@ -48,18 +48,18 @@ public class PlanManager {
         List<String> topicNames = topics.stream().map(TopicListing::name).collect(Collectors.toList());
         Map<String, List<ConfigEntry>> topicConfigs = fetchTopicConfigurations(topicNames);
 
-        desiredState.getTopics().forEach((key, value) -> {
+        desiredState.getTopics().forEach((topicName, desiredTopicState) -> {
             TopicPlan.Builder topicPlan = new TopicPlan.Builder()
-                    .setName(key)
-                    .setTopicDetails(value);
+                    .setName(topicName)
+                    .setTopicDetails(desiredTopicState);
 
-            if (!topicNames.contains(key)) {
-                log.info("[PLAN] Topic {} does not exist; it will be created.", key);
+            if (!topicNames.contains(topicName)) {
+                log.info("[PLAN] Topic {} does not exist; it will be created.", topicName);
                 topicPlan.setAction(PlanAction.ADD);
             } else {
-                log.info("[PLAN] Topic {} exists, it will not be created.", key);
+                log.info("[PLAN] Topic {} exists, it will not be created.", topicName);
                 topicPlan.setAction(PlanAction.NO_CHANGE);
-                planTopicConfigurations(key, value, topicConfigs.get(key), topicPlan);
+                planTopicConfigurations(topicName, desiredTopicState, topicConfigs.get(topicName), topicPlan);
             }
 
             desiredPlan.addTopicPlans(topicPlan.build());

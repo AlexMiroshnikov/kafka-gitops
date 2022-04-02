@@ -3,6 +3,7 @@ package com.devshawn.kafka.gitops.util;
 import com.devshawn.kafka.gitops.domain.state.DesiredStateFile;
 import com.devshawn.kafka.gitops.domain.state.settings.SettingsTopicsDefaults;
 
+import java.util.Map;
 import java.util.Optional;
 
 public class StateUtil {
@@ -22,6 +23,16 @@ public class StateUtil {
 
         if (defaults != null) {
             return defaults.getPartitions();
+        }
+
+        return Optional.empty();
+    }
+
+    public static Optional<Map<String, String>> fetchConfigs(DesiredStateFile desiredStateFile) {
+        SettingsTopicsDefaults defaults = getSettingsTopicsDefaults(desiredStateFile);
+
+        if (defaults != null) {
+            return defaults.getConfigs();
         }
 
         return Optional.empty();
