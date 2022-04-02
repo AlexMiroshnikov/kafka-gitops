@@ -19,6 +19,7 @@ import org.apache.kafka.common.config.ConfigResource;
 import org.apache.kafka.common.resource.PatternType;
 import org.apache.kafka.common.resource.ResourcePatternFilter;
 import org.apache.kafka.common.resource.ResourceType;
+import org.inferred.freebuilder.shaded.com.google.common.collect.ImmutableMap;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -66,7 +67,8 @@ public class KafkaService {
                     topicDetails.getPartitions().get(),
                     topicDetails.getReplication().get().shortValue()
             );
-            newTopic.configs(topicDetails.getConfigs());
+            Map<String, String> configs = topicDetails.getConfigs().isPresent() ? topicDetails.getConfigs().get() : Collections.emptyMap();
+            newTopic.configs(configs);
             adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
         } catch (InterruptedException | ExecutionException | NoSuchElementException ex) {
             throw new KafkaExecutionException("Error thrown when attempting to create a Kafka topic", ex.getMessage());

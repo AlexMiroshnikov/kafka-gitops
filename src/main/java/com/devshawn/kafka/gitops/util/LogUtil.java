@@ -12,6 +12,9 @@ import com.devshawn.kafka.gitops.exception.KafkaExecutionException;
 import com.devshawn.kafka.gitops.exception.WritePlanOutputException;
 import picocli.CommandLine;
 
+import java.util.Collections;
+import java.util.Map;
+
 public class LogUtil {
 
     public static void printPlan(DesiredPlan desiredPlan, boolean deleteDisabled, boolean skipAclsDisabled) {
@@ -60,9 +63,11 @@ public class LogUtil {
     private static void printTopicConfigPlanForNewTopics(TopicDetails topicDetails) {
         System.out.println(green(String.format("\t+ partitions: %s", topicDetails.getPartitions().get())));
         System.out.println(green(String.format("\t+ replication: %s", topicDetails.getReplication().get())));
-        if (topicDetails.getConfigs().size() > 0) {
+        Map<String, String> topicDetailsConfigs = topicDetails.getConfigs().isPresent() ? topicDetails.getConfigs().get() : Collections.emptyMap();
+
+        if (topicDetailsConfigs.size() > 0) {
             System.out.println(green("\t+ configs:"));
-            topicDetails.getConfigs().forEach((key, value) -> System.out.println(green(String.format("\t\t+ %s: %s", key, value))));
+            topicDetailsConfigs.forEach((key, value) -> System.out.println(green(String.format("\t\t+ %s: %s", key, value))));
         }
     }
 

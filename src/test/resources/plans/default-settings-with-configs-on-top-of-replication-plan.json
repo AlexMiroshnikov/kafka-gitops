@@ -7,10 +7,10 @@
                 "partitions": 10,
                 "replication": 3,
                 "configs": {
-                    "min.insync.replicas": 2,
+                    "min.insync.replicas": "2",
                     "cleanup.policy": "compact",
-                    "delete.retention.ms": 123,
-                    "min.compaction.lag.ms": 456
+                    "delete.retention.ms": "123",
+                    "min.compaction.lag.ms": "456"
                 }
             },
             "topicConfigPlans": []
@@ -22,10 +22,10 @@
                 "partitions": 10,
                 "replication": 3,
                 "configs": {
-                    "min.insync.replicas": 3,
+                    "min.insync.replicas": "3",
                     "cleanup.policy": "compact",
-                    "delete.retention.ms": 123,
-                    "min.compaction.lag.ms": 456
+                    "delete.retention.ms": "123",
+                    "min.compaction.lag.ms": "456"
                 }
             },
             "topicConfigPlans": []
@@ -37,10 +37,10 @@
                 "partitions": 10,
                 "replication": 3,
                 "configs": {
-                    "min.insync.replicas": 2,
+                    "min.insync.replicas": "2",
                     "cleanup.policy": "delete",
-                    "delete.retention.ms": 123,
-                    "min.compaction.lag.ms": 456
+                    "delete.retention.ms": "123",
+                    "min.compaction.lag.ms": "456"
                 }
             },
             "topicConfigPlans": []
@@ -52,10 +52,10 @@
                 "partitions": 10,
                 "replication": 3,
                 "configs": {
-                    "min.insync.replicas": 2,
+                    "min.insync.replicas": "2",
                     "cleanup.policy": "compact",
-                    "delete.retention.ms": 789,
-                    "min.compaction.lag.ms": 456
+                    "delete.retention.ms": "789",
+                    "min.compaction.lag.ms": "456"
                 }
             },
             "topicConfigPlans": []
@@ -67,10 +67,10 @@
                 "partitions": 10,
                 "replication": 3,
                 "configs": {
-                    "min.insync.replicas": 2,
+                    "min.insync.replicas": "2",
                     "cleanup.policy": "compact",
-                    "delete.retention.ms": 123,
-                    "min.compaction.lag.ms": 321
+                    "delete.retention.ms": "123",
+                    "min.compaction.lag.ms": "321"
                 }
             },
             "topicConfigPlans": []

@@ -26,10 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class PlanManager {
@@ -92,8 +89,10 @@ public class PlanManager {
                 .filter(it -> it.source() == ConfigEntry.ConfigSource.DYNAMIC_TOPIC_CONFIG)
                 .collect(Collectors.toList());
 
+        Map<String, String> topicDetailsConfigs = topicDetails.getConfigs().isPresent() ? topicDetails.getConfigs().get() : Collections.emptyMap();
+
         customConfigs.forEach(currentConfig -> {
-            String newConfig = topicDetails.getConfigs().getOrDefault(currentConfig.name(), null);
+            String newConfig = topicDetailsConfigs.getOrDefault(currentConfig.name(), null);
 
             TopicConfigPlan.Builder topicConfigPlan = new TopicConfigPlan.Builder()
                     .setKey(currentConfig.name());
@@ -109,7 +108,7 @@ public class PlanManager {
             }
         });
 
-        topicDetails.getConfigs().forEach((key, value) -> {
+        topicDetailsConfigs.forEach((key, value) -> {
             ConfigEntry currentConfig = customConfigs.stream().filter(it -> it.name().equals(key)).findFirst().orElse(null);
 
             TopicConfigPlan.Builder topicConfigPlan = new TopicConfigPlan.Builder()
