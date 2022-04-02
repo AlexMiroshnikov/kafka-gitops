@@ -33,6 +33,8 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -171,16 +173,24 @@ public class StateManager {
     private void mergeTopicsDefaultsToTopicsDetails(DesiredState.Builder desiredState, DesiredStateFile desiredStateFile) {
         Optional<Integer> defaultReplication = StateUtil.fetchReplication(desiredStateFile);
         Optional<Integer> defaultPartitions = StateUtil.fetchPartitions(desiredStateFile);
+        Map<String, String> defaultConfigs = StateUtil.fetchConfigs(desiredStateFile).orElse(Collections.emptyMap());
 
         desiredStateFile.getTopics().forEach((name, details) -> {
             Integer replication = details.getReplication().isPresent() ? details.getReplication().get() : defaultReplication.get();
             Integer partitions = details.getPartitions().isPresent() ? details.getPartitions().get() : defaultPartitions.get();
+            Map<String, String> configs = new HashMap<>(defaultConfigs);
+
+            if (details.getConfigs().size() > 0) {
+                configs.putAll(details.getConfigs());
+            }
+            // TODO: What if we'd like to unset some configuration prop?
 
             desiredState.putTopics(
                 name,
                 new TopicDetails.Builder().mergeFrom(details)
                     .setReplication(replication)
                     .setPartitions(partitions)
+                    .putAllConfigs(configs)
                     .build()
             );
         });
