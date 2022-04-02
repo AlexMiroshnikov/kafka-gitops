@@ -89,7 +89,7 @@ public class PlanManager {
                 .filter(it -> it.source() == ConfigEntry.ConfigSource.DYNAMIC_TOPIC_CONFIG)
                 .collect(Collectors.toList());
 
-        Map<String, String> topicDetailsConfigs = topicDetails.getConfigs().isPresent() ? topicDetails.getConfigs().get() : Collections.emptyMap();
+        Map<String, String> topicDetailsConfigs = topicDetails.getConfigs();
 
         customConfigs.forEach(currentConfig -> {
             String newConfig = topicDetailsConfigs.getOrDefault(currentConfig.name(), null);

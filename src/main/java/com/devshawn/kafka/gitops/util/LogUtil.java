@@ -63,7 +63,7 @@ public class LogUtil {
     private static void printTopicConfigPlanForNewTopics(TopicDetails topicDetails) {
         System.out.println(green(String.format("\t+ partitions: %s", topicDetails.getPartitions().get())));
         System.out.println(green(String.format("\t+ replication: %s", topicDetails.getReplication().get())));
-        Map<String, String> topicDetailsConfigs = topicDetails.getConfigs().isPresent() ? topicDetails.getConfigs().get() : Collections.emptyMap();
+        Map<String, String> topicDetailsConfigs = topicDetails.getConfigs();
 
         if (topicDetailsConfigs.size() > 0) {
             System.out.println(green("\t+ configs:"));

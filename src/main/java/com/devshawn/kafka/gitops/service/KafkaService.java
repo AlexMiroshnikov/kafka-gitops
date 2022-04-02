@@ -67,7 +67,7 @@ public class KafkaService {
                     topicDetails.getPartitions().get(),
                     topicDetails.getReplication().get().shortValue()
             );
-            Map<String, String> configs = topicDetails.getConfigs().isPresent() ? topicDetails.getConfigs().get() : Collections.emptyMap();
+            Map<String, String> configs = topicDetails.getConfigs();
             newTopic.configs(configs);
             adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
         } catch (InterruptedException | ExecutionException | NoSuchElementException ex) {

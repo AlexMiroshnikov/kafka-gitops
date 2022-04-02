@@ -14,7 +14,7 @@ public interface TopicDetails {
 
     Optional<Integer> getReplication();
 
-    Optional<Map<String, String>> getConfigs();
+    Map<String, String> getConfigs();
 
     class Builder extends TopicDetails_Builder {
     }

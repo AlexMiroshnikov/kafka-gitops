@@ -175,8 +175,8 @@ public class StateManager {
             Integer partitions = details.getPartitions().isPresent() ? details.getPartitions().get() : defaultPartitions.get();
             Map<String, String> configs = new HashMap<>(defaultConfigs);
 
-            if (details.getConfigs().isPresent()) {
-                configs.putAll(details.getConfigs().get());
+            if (details.getConfigs().size() > 0) {
+                configs.putAll(details.getConfigs());
             }
             // TODO: What if we'd like to unset some configuration prop?
 
@@ -185,7 +185,7 @@ public class StateManager {
                 new TopicDetails.Builder().mergeFrom(details)
                     .setReplication(replication)
                     .setPartitions(partitions)
-                    .setConfigs(configs)
+                    .putAllConfigs(configs)
                     .build()
             );
         });
