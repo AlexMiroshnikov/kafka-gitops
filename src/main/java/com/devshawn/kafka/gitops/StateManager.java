@@ -158,11 +158,21 @@ public class StateManager {
     }
 
     private void generateTopicsState(DesiredState.Builder desiredState, DesiredStateFile desiredStateFile) {
-        Optional<Integer> defaultReplication = StateUtil.fetchReplication(desiredStateFile);
-        if (defaultReplication.isPresent()) {
+        if (StateUtil.areSettingsTopicsDefaultsPresent(desiredStateFile)) {
+            Optional<Integer> defaultReplication = StateUtil.fetchReplication(desiredStateFile);
+            Optional<Integer> defaultPartitions = StateUtil.fetchPartitions(desiredStateFile);
+
             desiredStateFile.getTopics().forEach((name, details) -> {
                 Integer replication = details.getReplication().isPresent() ? details.getReplication().get() : defaultReplication.get();
-                desiredState.putTopics(name, new TopicDetails.Builder().mergeFrom(details).setReplication(replication).build());
+                Integer partitions = details.getPartitions().isPresent() ? details.getPartitions().get() : defaultPartitions.get();
+
+                desiredState.putTopics(
+                        name,
+                        new TopicDetails.Builder().mergeFrom(details)
+                                .setReplication(replication)
+                                .setPartitions(partitions)
+                                .build()
+                );
             });
         } else {
             desiredState.putAllTopics(desiredStateFile.getTopics());
