@@ -59,6 +59,27 @@ jacocoTestReport {
     }
 }
 
+jacocoTestCoverageVerification {
+    dependsOn(jacocoTestReport)
+
+    violationRules {
+        rule {
+            element = "CLASS"
+            limit {
+                value = "COVEREDRATIO"
+                minimum = 0.75.toBigDecimal()
+            }
+            excludes = [
+                "com.devshawn.kafka.gitops.*.*_Builder",
+                "com.devshawn.kafka.gitops.*.*_Builder.*",
+                "com.devshawn.kafka.gitops.*.*.Builder",
+                "com.devshawn.kafka.gitops.*.*Exception",
+                "com.devshawn.kafka.gitops.*.ConfluentCloudService*",
+            ]
+        }
+    }
+}
+
 jar {
     manifest {
         attributes(
