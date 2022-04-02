@@ -81,10 +81,9 @@ public class ParserService {
             throw new ValidationException(String.format("Value '%s' is not a valid format for: [%s] in state file definition: %s", value, propertyName, joinedFields));
         } catch (JsonMappingException ex) {
             List<String> fields = getYamlFields(ex);
-//            String message = ex.getCause() != null ? ex.getCause().getMessage().split("\n")[0] : ex.getMessage().split("\n")[0];
+            String message = ex.getCause() != null ? ex.getCause().getMessage().split("\n")[0] : ex.getMessage().split("\n")[0];
             String joinedFields = String.join(" -> ", fields);
-//            throw new ValidationException(String.format("%s in state file definition: %s", message, joinedFields));
-            throw new ValidationException(String.format("in state file definition: %s", joinedFields));
+            throw new ValidationException(String.format("%s in state file definition: %s", message, joinedFields));
         } catch (FileNotFoundException ex) {
             throw new ValidationException("The specified state file could not be found.");
         } catch (IOException ex) {
