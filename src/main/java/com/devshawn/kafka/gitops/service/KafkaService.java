@@ -61,9 +61,11 @@ public class KafkaService {
 
     public void createTopic(String topicName, TopicDetails topicDetails) {
         try (final AdminClient adminClient = buildAdminClient()) {
-//            NewTopic newTopic = new NewTopic(topicName, topicDetails.getPartitions(), topicDetails.getReplication().get().shortValue());
-            int partitions = topicDetails.getPartitions().isPresent() ? topicDetails.getPartitions().get() : 0;
-            NewTopic newTopic = new NewTopic(topicName, partitions, topicDetails.getReplication().get().shortValue());
+            NewTopic newTopic = new NewTopic(
+                    topicName,
+                    topicDetails.getPartitions().get(),
+                    topicDetails.getReplication().get().shortValue()
+            );
             newTopic.configs(topicDetails.getConfigs());
             adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
         } catch (InterruptedException | ExecutionException | NoSuchElementException ex) {

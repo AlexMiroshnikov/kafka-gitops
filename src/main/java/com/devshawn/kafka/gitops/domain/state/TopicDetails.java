@@ -17,6 +17,5 @@ public interface TopicDetails {
     Map<String, String> getConfigs();
 
     class Builder extends TopicDetails_Builder {
-
     }
 }
