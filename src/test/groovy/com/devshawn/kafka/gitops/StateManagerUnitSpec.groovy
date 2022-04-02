@@ -1,12 +1,10 @@
 package com.devshawn.kafka.gitops
 
 import com.devshawn.kafka.gitops.config.ManagerConfig
-import com.devshawn.kafka.gitops.domain.state.CustomAclDetails
 import com.devshawn.kafka.gitops.domain.state.DesiredStateFile
-import com.devshawn.kafka.gitops.domain.state.ServiceDetails
-import com.devshawn.kafka.gitops.domain.state.TopicDetails
-import com.devshawn.kafka.gitops.domain.state.UserDetails
 import com.devshawn.kafka.gitops.domain.state.settings.Settings
+import com.devshawn.kafka.gitops.domain.state.settings.SettingsTopics
+import com.devshawn.kafka.gitops.domain.state.settings.SettingsTopicsDefaults
 import com.devshawn.kafka.gitops.service.ParserService
 import spock.lang.Specification
 import com.devshawn.kafka.gitops.exception.ValidationException
@@ -17,8 +15,10 @@ class StateManagerUnitSpec extends Specification {
         setup:
         ManagerConfig managerConfig = Stub(ManagerConfig.class)
         ParserService parserService = Stub(ParserService.class)
-        DesiredStateFile.Builder builder = new DesiredStateFile.Builder()
-        DesiredStateFile desiredStateFile = builder.build()
+        SettingsTopicsDefaults settingsTopicsDefaults = (new SettingsTopicsDefaults.Builder()).setPartitions(0).build()
+        SettingsTopics settingsTopic = (new SettingsTopics.Builder()).setDefaults(settingsTopicsDefaults).build()
+        Settings settings = (new Settings.Builder()).setTopics(settingsTopic).build()
+        DesiredStateFile desiredStateFile = (new DesiredStateFile.Builder()).setSettings(settings).build()
         parserService.parseStateFile() >> desiredStateFile
         StateManager stateManager = new StateManager(managerConfig, parserService)
 
