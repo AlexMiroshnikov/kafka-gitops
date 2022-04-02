@@ -29,6 +29,26 @@
                 "configs": {}
             },
             "topicConfigPlans": []
+        },
+        {
+            "name": "topic4",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 7,
+                "replication": 3,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic5",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 1,
+                "configs": {}
+            },
+            "topicConfigPlans": []
         }
     ],
     "aclPlans": []

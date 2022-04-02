@@ -10,3 +10,7 @@ topics:
   topic3:
     partitions: 5
     replication: 2
+  topic4:
+    partitions: 7
+  topic5:
+    replication: 1
