@@ -1,0 +1,12 @@
+settings:
+  topics:
+    defaults:
+      replication: 3
+      partitions: 10
+
+topics:
+  topic1: {}
+  topic2: {}
+  topic3:
+    partitions: 5
+    replication: 2

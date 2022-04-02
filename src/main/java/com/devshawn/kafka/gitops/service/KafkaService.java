@@ -20,12 +20,7 @@ import org.apache.kafka.common.resource.PatternType;
 import org.apache.kafka.common.resource.ResourcePatternFilter;
 import org.apache.kafka.common.resource.ResourceType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -66,7 +61,9 @@ public class KafkaService {
 
     public void createTopic(String topicName, TopicDetails topicDetails) {
         try (final AdminClient adminClient = buildAdminClient()) {
-            NewTopic newTopic = new NewTopic(topicName, topicDetails.getPartitions(), topicDetails.getReplication().get().shortValue());
+//            NewTopic newTopic = new NewTopic(topicName, topicDetails.getPartitions(), topicDetails.getReplication().get().shortValue());
+            int partitions = topicDetails.getPartitions().isPresent() ? topicDetails.getPartitions().get() : 0;
+            NewTopic newTopic = new NewTopic(topicName, partitions, topicDetails.getReplication().get().shortValue());
             newTopic.configs(topicDetails.getConfigs());
             adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
         } catch (InterruptedException | ExecutionException | NoSuchElementException ex) {

@@ -10,12 +10,13 @@ import java.util.Optional;
 @JsonDeserialize(builder = TopicDetails.Builder.class)
 public interface TopicDetails {
 
-    Integer getPartitions();
+    Optional<Integer> getPartitions();
 
     Optional<Integer> getReplication();
 
     Map<String, String> getConfigs();
 
     class Builder extends TopicDetails_Builder {
+
     }
 }

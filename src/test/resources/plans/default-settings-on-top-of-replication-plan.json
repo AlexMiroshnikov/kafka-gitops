@@ -1,0 +1,35 @@
+{
+    "topicPlans": [
+        {
+            "name": "topic1",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic2",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic3",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 5,
+                "replication": 2,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        }
+    ],
+    "aclPlans": []
+}
