@@ -5,6 +5,7 @@ import org.inferred.freebuilder.FreeBuilder;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @FreeBuilder
 @JsonDeserialize(builder = DesiredState.Builder.class)

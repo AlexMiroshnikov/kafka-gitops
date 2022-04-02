@@ -1,17 +1,45 @@
 package com.devshawn.kafka.gitops.util;
 
 import com.devshawn.kafka.gitops.domain.state.DesiredStateFile;
+import com.devshawn.kafka.gitops.domain.state.settings.SettingsTopicsDefaults;
 
 import java.util.Optional;
 
 public class StateUtil {
 
     public static Optional<Integer> fetchReplication(DesiredStateFile desiredStateFile) {
-        if (desiredStateFile.getSettings().isPresent() && desiredStateFile.getSettings().get().getTopics().isPresent()
-                && desiredStateFile.getSettings().get().getTopics().get().getDefaults().isPresent()) {
-            return desiredStateFile.getSettings().get().getTopics().get().getDefaults().get().getReplication();
+        SettingsTopicsDefaults defaults = getSettingsTopicsDefaults(desiredStateFile);
+
+        if (defaults != null) {
+            return defaults.getReplication();
         }
+
         return Optional.empty();
+    }
+
+    public static Optional<Integer> fetchPartitions(DesiredStateFile desiredStateFile) {
+        SettingsTopicsDefaults defaults = getSettingsTopicsDefaults(desiredStateFile);
+
+        if (defaults != null) {
+            return defaults.getPartitions();
+        }
+
+        return Optional.empty();
+    }
+
+    public static boolean areSettingsTopicsDefaultsPresent(DesiredStateFile desiredStateFile) {
+        return (
+            desiredStateFile.getSettings().isPresent() &&
+            desiredStateFile.getSettings().get().getTopics().isPresent() &&
+            desiredStateFile.getSettings().get().getTopics().get().getDefaults().isPresent()
+        );
+    }
+
+    private static SettingsTopicsDefaults getSettingsTopicsDefaults(DesiredStateFile desiredStateFile) {
+        if (areSettingsTopicsDefaultsPresent(desiredStateFile)) {
+            return desiredStateFile.getSettings().get().getTopics().get().getDefaults().get();
+        }
+        return null;
     }
 
     public static boolean isDescribeTopicAclEnabled(DesiredStateFile desiredStateFile) {

@@ -11,6 +11,8 @@ public interface SettingsTopicsDefaults {
 
     Optional<Integer> getReplication();
 
+    Optional<Integer> getPartitions();
+
     class Builder extends SettingsTopicsDefaults_Builder {
     }
 }

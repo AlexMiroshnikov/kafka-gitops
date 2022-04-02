@@ -1,0 +1,55 @@
+{
+    "topicPlans": [
+        {
+            "name": "topic1",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic2",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic3",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 5,
+                "replication": 2,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic4",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 7,
+                "replication": 3,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic5",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 1,
+                "configs": {}
+            },
+            "topicConfigPlans": []
+        }
+    ],
+    "aclPlans": []
+}

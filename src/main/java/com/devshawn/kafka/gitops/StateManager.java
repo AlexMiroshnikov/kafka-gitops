@@ -51,6 +51,9 @@ public class StateManager {
     private final RoleService roleService;
     private final ConfluentCloudService confluentCloudService;
 
+    private static final int MIN_TOPIC_REPLICATION_FACTOR = 1;
+    private static final int MIN_TOPIC_PARTITIONS_AMOUNT = 1;
+
     private PlanManager planManager;
     private ApplyManager applyManager;
 
@@ -158,15 +161,29 @@ public class StateManager {
     }
 
     private void generateTopicsState(DesiredState.Builder desiredState, DesiredStateFile desiredStateFile) {
-        Optional<Integer> defaultReplication = StateUtil.fetchReplication(desiredStateFile);
-        if (defaultReplication.isPresent()) {
-            desiredStateFile.getTopics().forEach((name, details) -> {
-                Integer replication = details.getReplication().isPresent() ? details.getReplication().get() : defaultReplication.get();
-                desiredState.putTopics(name, new TopicDetails.Builder().mergeFrom(details).setReplication(replication).build());
-            });
+        if (StateUtil.areSettingsTopicsDefaultsPresent(desiredStateFile)) {
+            mergeTopicsDefaultsToTopicsDetails(desiredState, desiredStateFile);
         } else {
             desiredState.putAllTopics(desiredStateFile.getTopics());
         }
+    }
+
+    private void mergeTopicsDefaultsToTopicsDetails(DesiredState.Builder desiredState, DesiredStateFile desiredStateFile) {
+        Optional<Integer> defaultReplication = StateUtil.fetchReplication(desiredStateFile);
+        Optional<Integer> defaultPartitions = StateUtil.fetchPartitions(desiredStateFile);
+
+        desiredStateFile.getTopics().forEach((name, details) -> {
+            Integer replication = details.getReplication().isPresent() ? details.getReplication().get() : defaultReplication.get();
+            Integer partitions = details.getPartitions().isPresent() ? details.getPartitions().get() : defaultPartitions.get();
+
+            desiredState.putTopics(
+                name,
+                new TopicDetails.Builder().mergeFrom(details)
+                    .setReplication(replication)
+                    .setPartitions(partitions)
+                    .build()
+            );
+        });
     }
 
     private void generateConfluentCloudServiceAcls(DesiredState.Builder desiredState, DesiredStateFile desiredStateFile) {
@@ -307,6 +324,11 @@ public class StateManager {
     }
 
     private void validateTopics(DesiredStateFile desiredStateFile) {
+        validateTopicsReplication(desiredStateFile);
+        validateTopicsPartitions(desiredStateFile);
+    }
+
+    private void validateTopicsReplication(DesiredStateFile desiredStateFile) {
         Optional<Integer> defaultReplication = StateUtil.fetchReplication(desiredStateFile);
         if (!defaultReplication.isPresent()) {
             desiredStateFile.getTopics().forEach((name, details) -> {
@@ -315,8 +337,24 @@ public class StateManager {
                 }
             });
         } else {
-            if (defaultReplication.get() < 1) {
+            if (defaultReplication.get() < MIN_TOPIC_REPLICATION_FACTOR) {
                 throw new ValidationException("The default replication factor must be a positive integer.");
+            }
+        }
+    }
+
+    private void validateTopicsPartitions(DesiredStateFile desiredStateFile) {
+        Optional<Integer> defaultPartitions = StateUtil.fetchPartitions(desiredStateFile);
+
+        if (!defaultPartitions.isPresent()) {
+            desiredStateFile.getTopics().forEach((name, details) -> {
+                if (!details.getPartitions().isPresent()) {
+                    throw new ValidationException(String.format("Not set: [partitions] in state file definition: topics -> %s", name));
+                }
+            });
+        } else {
+            if (defaultPartitions.get() < MIN_TOPIC_PARTITIONS_AMOUNT) {
+                throw new ValidationException("The default partitions amount must be a positive integer.");
             }
         }
     }

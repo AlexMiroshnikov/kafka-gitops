@@ -67,7 +67,8 @@ class PlanCommandIntegrationSpec extends Specification {
                 "default-replication",
                 "default-replication-multiple",
                 "describe-topic-acl-disabled",
-                "describe-topic-acl-enabled"
+                "describe-topic-acl-enabled",
+                "default-settings-on-top-of-replication",
         ]
     }
 
