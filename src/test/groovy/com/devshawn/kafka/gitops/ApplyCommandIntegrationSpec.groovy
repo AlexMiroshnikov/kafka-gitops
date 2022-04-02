@@ -58,7 +58,7 @@ class ApplyCommandIntegrationSpec extends Specification {
                 "custom-group-id-connect",
                 "custom-application-id-streams",
                 "custom-storage-topic",
-                "custom-storage-topics"
+                "custom-storage-topics",
         ]
     }
 
