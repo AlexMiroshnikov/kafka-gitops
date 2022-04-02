@@ -1,0 +1,80 @@
+{
+    "topicPlans": [
+        {
+            "name": "topic1",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {
+                    "min.insync.replicas": 2,
+                    "cleanup.policy": "compact",
+                    "delete.retention.ms": 123,
+                    "min.compaction.lag.ms": 456
+                }
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic2",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {
+                    "min.insync.replicas": 3,
+                    "cleanup.policy": "compact",
+                    "delete.retention.ms": 123,
+                    "min.compaction.lag.ms": 456
+                }
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic3",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {
+                    "min.insync.replicas": 2,
+                    "cleanup.policy": "delete",
+                    "delete.retention.ms": 123,
+                    "min.compaction.lag.ms": 456
+                }
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic4",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {
+                    "min.insync.replicas": 2,
+                    "cleanup.policy": "compact",
+                    "delete.retention.ms": 789,
+                    "min.compaction.lag.ms": 456
+                }
+            },
+            "topicConfigPlans": []
+        },
+        {
+            "name": "topic5",
+            "action": "ADD",
+            "topicDetails": {
+                "partitions": 10,
+                "replication": 3,
+                "configs": {
+                    "min.insync.replicas": 2,
+                    "cleanup.policy": "compact",
+                    "delete.retention.ms": 123,
+                    "min.compaction.lag.ms": 321
+                }
+            },
+            "topicConfigPlans": []
+        }
+    ],
+    "aclPlans": []
+}
