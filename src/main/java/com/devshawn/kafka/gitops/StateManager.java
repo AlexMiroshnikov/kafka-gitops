@@ -173,8 +173,8 @@ public class StateManager {
         Optional<Integer> defaultPartitions = StateUtil.fetchPartitions(desiredStateFile);
 
         desiredStateFile.getTopics().forEach((name, details) -> {
-            Integer replication = details.getReplication().orElse(defaultReplication.get());
-            Integer partitions = details.getPartitions().orElse(defaultPartitions.get());
+            Integer replication = details.getReplication().isPresent() ? details.getReplication().get() : defaultReplication.get();
+            Integer partitions = details.getPartitions().isPresent() ? details.getPartitions().get() : defaultPartitions.get();
 
             desiredState.putTopics(
                 name,
